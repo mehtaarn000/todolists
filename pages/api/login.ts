@@ -1,0 +1,28 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { validateUser, getTokenByUser } from "../../lib/getUser"
+
+interface Body {
+    username: string,
+    password: string,
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const bodyString = req.body
+    const body: Body = JSON.parse(bodyString)
+
+    const isUser = validateUser(body.username, body.password)
+
+    if (typeof isUser === "string") {
+        res.status(404).json({message: isUser})
+        return
+    }
+
+    if (!isUser) {
+        res.status(401).json({message: "Incorrect password"})
+        return
+    }
+
+    const token = await getTokenByUser(body.username)
+
+    res.status(200).json({message: "ok", token: token})
+}
