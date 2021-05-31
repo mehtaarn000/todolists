@@ -10,6 +10,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const bodyString = req.body
     const body: Body = JSON.parse(bodyString)
 
+    if (!body.username || !body.password) {
+        res.status(400).json({message: "The request failed"})
+        return
+    }
+
     const isUser = validateUser(body.username, body.password)
 
     if (typeof isUser === "string") {
