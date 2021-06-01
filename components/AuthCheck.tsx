@@ -13,21 +13,25 @@ export default function AuthCheck(props: {children: any}) {
                 }
 
                 router.push("/login")
+                return
             }
 
             const user = await fetch("/api/user")
             const jsonData = await user.json()
-
             if (!jsonData.user) {
                 Cookies.remove("token")
                 router.push("/login")
                 return
             }
-
-            router.push("/home")
+            
+            if (router.basePath === "/home") {
+                return
+            } else {
+                router.push("/home")
+            }
         }
 
-        checkToken().then()
+        checkToken()
     }, [])
 
     return props.children
