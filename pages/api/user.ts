@@ -8,15 +8,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const user = await getUser("token", token)
     if (!user) {
-        res.json({user: null})
+        res.status(404).json({user: null})
         return
     }
 
     if (typeof user === "string") {
-        res.json({user: user})
+        res.status(500).json({user: user})
         return
     }
 
     const userObj = user as User
-    res.json({user: userObj.username})
+    res.status(200).json({user: userObj.username})
 }
