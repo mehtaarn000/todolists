@@ -1,10 +1,17 @@
-import util from "util"
-import mysql from "mysql"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
 import { User } from "./sql_models"
+import { createConnection } from 'promise-mysql'
 
 dotenv.config({path: "./.env.local"})
+
+export const getDbConnection = async () => {
+    return await createConnection({
+        user: "root",
+        password: process.env.DATABASE_PW,
+        database: process.env.DATABASE
+    })
+}
 
 export async function validateUser(username: string, password: string): Promise<boolean|string|null> {
     const userObj = await getUser("username", username)
@@ -21,16 +28,17 @@ export async function validateUser(username: string, password: string): Promise<
 }   
 
 export async function getUser(field: string, value: string | number): Promise<string | null | User> {
-    const connection = mysql.createConnection({
-        user: "root",
-        password: process.env.DATABASE_PW,
-        database: process.env.DATABASE
-    })
-
-    const query = util.promisify(connection.query).bind(connection);
+    const connection = await getDbConnection()
     
-    const rows: any = await query(`SELECT * FROM users WHERE ${field} = "${value}"`)
-    const users = rows as User[]
+    let rows;
+
+    try {
+        rows = await connection.query(`SELECT * FROM users WHERE ${field} = "${value}"`) 
+    } catch (err) {
+        return "DATABASE ERROR"
+    }
+    
+    const users = rows as unknown as User[]
 
     if (users.length > 1) {
         return "SQL Error"
@@ -41,28 +49,18 @@ export async function getUser(field: string, value: string | number): Promise<st
     }
 
     return users[0]
-
 }
 
 export async function getTokenByUser(username: string): Promise<string|null> {
-    const connection = mysql.createConnection({
-        user: "root",
-        password: process.env.DATABASE_PW,
-        database: process.env.DATABASE
-    })
+    const users = await getUser("username", username)
 
-    const query = util.promisify(connection.query).bind(connection);
-    
-    const rows: any = await query(`SELECT * FROM users WHERE username = "${username}"`)
-    const users = rows as User[]
-
-    if (users.length > 1) {
-        return "SQL Error"
+    if (typeof users === "string") {
+        return users
     }
 
-    if (users.length < 1) {
-        return null
+    if (!users) {
+        return users
     }
 
-    return users[0].token
+    return users.token
 }
