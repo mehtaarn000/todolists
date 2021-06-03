@@ -1,7 +1,11 @@
 {
   "name": "wishlist",
   "description": "Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)",
-  "author": {"name": "mehtaarn000", "email": "arnavm834@gmail.com", "url": "https://mehtaarn000.github.io"},
+  "author": {
+    "name": "mehtaarn000",
+    "email": "arnavm834@gmail.com",
+    "url": "https://mehtaarn000.github.io"
+  },
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -13,8 +17,8 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "js-cookie": "^2.2.1",
-    "mysql": "^2.18.1",
     "next": "latest",
+    "promise-mysql": "^5.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "util": "^0.12.3"
@@ -22,7 +26,6 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/js-cookie": "^2.2.6",
-    "@types/mysql": "^2.15.18",
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
