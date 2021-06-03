@@ -7,7 +7,7 @@ dotenv.config({path: "./.env.local"})
 
 export const getDbConnection = async () => {
     return await createConnection({
-        user: "root",
+        user: process.env.DATABASE_USER,
         password: process.env.DATABASE_PW,
         database: process.env.DATABASE
     })
