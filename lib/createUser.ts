@@ -1,6 +1,7 @@
 import { User } from "./sql_models"
 import { getDbConnection } from "./getUser"
 import { generateRandom } from "./generateRandom"
+import bcrypt from "bcrypt"
 
 async function getUser(username: string, email: string): Promise<string> {
     const connection = await getDbConnection()
@@ -32,9 +33,10 @@ export async function createUser(username: string, pass: string, email: string):
     // If the username and email are not taken
     if (!user) {
         const token = generateRandom()
+        const password = await bcrypt.hash(pass, 10)
         const connection = await getDbConnection()
         try {
-            connection.query(`INSERT INTO users (username, pass, email, token) VALUES ("${username}", "${pass}", "${email}", "${token}")`) 
+            connection.query(`INSERT INTO users (username, pass, email, token) VALUES ("${username}", "${password}", "${email}", "${token}")`) 
             return "token " + token
         } catch {
             return "DATABASE ERROR"

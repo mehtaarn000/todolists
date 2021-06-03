@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
     }
 
-    const isUser = validateUser(body.username, body.password)
+    const isUser = await validateUser(body.username, body.password)
 
     if (typeof isUser === "string") {
         res.status(404).json({message: isUser})
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (!isUser) {
-        res.status(401).json({message: "Incorrect password"})
+        res.status(401).json({message: "Incorrect username or password"})
         return
     }
 

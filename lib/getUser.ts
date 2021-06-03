@@ -15,8 +15,13 @@ export const getDbConnection = async () => {
 
 export async function validateUser(username: string, password: string): Promise<boolean|string|null> {
     const userObj = await getUser("username", username)
-    if (typeof userObj === 'string' || typeof userObj === null) {
-        return userObj as string | null
+    
+    if (typeof userObj === 'string') {
+        return userObj as string 
+    }
+
+    if (!userObj) {
+        return userObj as null
     }
 
     const pass = userObj?.pass
