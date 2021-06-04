@@ -1,4 +1,18 @@
-export default function App() {
+import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
+import React from "react"
+import { FormProps } from "../lib/interfaces"
+
+export default function App(props: { redirect: boolean }) {
+    const router = useRouter()
+    React.useEffect(() => {
+        if (props.redirect) {
+            router.push("/login")
+            return
+        }
+    }, [])
+
+    
     return (
         <div>
             <h1>Hello WorfflD!</h1>
@@ -6,3 +20,22 @@ export default function App() {
     )
 }
 
+export const getServerSideProps: GetServerSideProps = async (context): Promise<{ props: FormProps }> => {
+    const sendToken = context.req.cookies.token
+    const token = await fetch("http://localhost:3000/api/user", {method: "post", body: JSON.stringify({token: sendToken})})
+    const data = await token.json()
+
+    if (!data.user) {
+        return {
+            props: {
+                redirect: true,
+            }
+        }
+    }
+    
+    return {
+        props: {
+            register: 0
+        }
+    }
+}

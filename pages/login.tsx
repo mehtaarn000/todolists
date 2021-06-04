@@ -5,12 +5,7 @@ import React from "react"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import Skeleton from 'react-loading-skeleton';
-
-interface FormProps {
-    register?: number,
-    error?: string,
-    redirect?: boolean
-}
+import { FormProps } from "../lib/interfaces"
 
 export default function App(props: { redirect?: boolean, register?: number, error?: string }) {
     const router = useRouter()
