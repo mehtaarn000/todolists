@@ -3,9 +3,10 @@ import { getUser } from "../../lib/getUser"
 import { User } from "../../lib/sql_models"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const cookies = req.cookies
-    const token = cookies.token
-
+    const bodyString = req.body
+    const body = JSON.parse(bodyString)
+    const token = body.token
+ 
     const user = await getUser("token", token)
     if (!user) {
         res.status(404).json({user: null})

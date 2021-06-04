@@ -2,11 +2,30 @@ import RegisterForm from "../components/RegisterForm"
 import LoginForm from "../components/LoginForm"
 import SwitchBetweenRegisterAndLogin from "../components/SwitchBetweenRegisterAndLogin"
 import React from "react"
+import { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
+import Skeleton from 'react-loading-skeleton';
 
-export default function App(props: { register?: number, error?: string }) {
-    return (
-        <LoginOrRegister error={props.error} register={props.register}></LoginOrRegister>
-    )
+interface FormProps {
+    register?: number,
+    error?: string,
+    redirect?: boolean
+}
+
+export default function App(props: { redirect?: boolean, register?: number, error?: string }) {
+    const router = useRouter()
+    React.useEffect(() => {
+        if (props.redirect) {
+            router.push("/home")
+            return
+        }
+    }, [])
+
+    if (props.redirect) {
+        return <Skeleton count={5}><LoginOrRegister error={props.error} register={props.register}></LoginOrRegister></Skeleton>
+    } else {
+        return <LoginOrRegister error={props.error} register={props.register}></LoginOrRegister>
+    }
 }
 
 function LoginOrRegister(props: { register?: number; error?: string }) {
@@ -26,5 +45,26 @@ function LoginOrRegister(props: { register?: number; error?: string }) {
                 <LoginForm error={props.error}></LoginForm>
             </div>
         )
+    }
+}
+
+
+export const getServerSideProps: GetServerSideProps = async (context): Promise<{ props: FormProps }> => {
+    const sendToken = context.req.cookies.token
+    const token = await fetch("http://localhost:3000/api/user", {method: "post", body: JSON.stringify({token: sendToken})})
+    const data = await token.json()
+
+    if (data.user) {
+        return {
+            props: {
+                redirect: true,
+            }
+        }
+    }
+    
+    return {
+        props: {
+            register: 0
+        }
     }
 }
