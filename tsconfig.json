@@ -19,5 +19,5 @@
     "target": "es2020"
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "sql.js"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }
