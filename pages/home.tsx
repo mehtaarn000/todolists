@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<{
     const token = await fetch("http://localhost:3000/api/user", {method: "post", body: JSON.stringify({token: sendToken})})
     const data = await token.json()
 
-    if (!data.user) {
+    if (!data.user || data.message) {
         return {
             props: {
                 redirect: true,
