@@ -5,3 +5,9 @@ export interface User {
     email: string,
     token: string
 }
+
+export interface Wishlist {
+    id: number,
+    owner_id: number,
+    content: string
+}
