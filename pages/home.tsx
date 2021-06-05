@@ -2,11 +2,13 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import React from "react"
 import { FormProps } from "../lib/interfaces"
+import Cookies from "js-cookie"
 
 export default function App(props: { redirect: boolean }) {
     const router = useRouter()
     React.useEffect(() => {
         if (props.redirect) {
+            Cookies.remove("token")
             router.push("/login")
             return
         }

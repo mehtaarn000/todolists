@@ -6,6 +6,7 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import Skeleton from 'react-loading-skeleton';
 import { FormProps } from "../lib/interfaces"
+import Cookies from "js-cookie"
 
 export default function App(props: { redirect?: boolean, register?: number, error?: string }) {
     const router = useRouter()
@@ -19,6 +20,7 @@ export default function App(props: { redirect?: boolean, register?: number, erro
     if (props.redirect) {
         return <Skeleton count={5}><LoginOrRegister error={props.error} register={props.register}></LoginOrRegister></Skeleton>
     } else {
+        Cookies.remove("token")
         return <LoginOrRegister error={props.error} register={props.register}></LoginOrRegister>
     }
 }

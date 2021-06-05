@@ -12,44 +12,76 @@ export default function RegisterForm(props: { error: boolean | React.ReactChild 
     const [email, setEmail] = useState("")
     const inputRef = useRef<HTMLInputElement | null>(null)
     const router = useRouter()
+    const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9_]+(?<![_.])$/
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     async function isEqual(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+
+        if (!username || !password || !conpassword || !email) {
+            setEqual("All fields must be filled")
+            return false
+        }
+
         if (password !== conpassword) {
             setEqual("Passwords don't match")
             setConPassword("")
             if (inputRef.current != null) {inputRef.current.value = ""}
-        }
-
-        if (!username) {
-            setEqual("Username field must be filled")
             return false
         }
-        
-        else {
-            const res = await fetch(
-                "/api/register",
-                {
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        conpassword: conpassword,
-                        email: email
-                    }),
-    
-                    method: "POST"
-                }
-            )
 
-            const data = await res.json()
-            if (data.message) {
-                setEqual(data.message)
-                return
-            }
-
-            Cookies.set("token", data.token)
-            router.push("/home")
+        if (username.length > 20 || username.length < 8) {
+            setEqual("Username length must be between 8 and 20 characters")
+            return false
         }
+
+        if (email.length > 255) {
+            setEqual("Email must be shorter than 255 characters")
+            return false
+        }
+
+        if (password.length > 60) {
+            setEqual("Password must be shorter than 60 characters")
+            return false
+        } 
+
+        const testUsername = usernameRegex.test(username)
+
+        if (!testUsername) {
+            setEqual("Username can only contain numbers, underscores, and letters")
+            return false
+        }
+
+        const testEmail = emailRegex.test(email)
+
+        if (!testEmail) {
+            setEqual("Provide a valid email address")
+            return false
+        }
+
+        const res = await fetch(
+            "/api/register",
+            {
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    conpassword: conpassword,
+                    email: email
+                }),
+
+                method: "POST"
+            }
+        )
+
+        const data = await res.json()
+        if (data.message) {
+            setEqual(data.message)
+            return
+        }
+
+        Cookies.set("token", data.token)
+        router.push("/home")
+        
     }
 
 
