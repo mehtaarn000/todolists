@@ -24,3 +24,24 @@ export async function getAllWishlists(token: string) {
 
     return wishlists
 }
+
+export async function getWishlist(id: number): Promise<string | Wishlist> {
+    const db = await getDbConnection()
+    let wishlist: Wishlist[]
+
+    try {
+        wishlist = await db.query(`SELECT * FROM wishlists WHERE id = "${db.escape(id)}"`)
+    } catch {
+        return "DATABASE ERROR"
+    }
+
+    if (wishlist.length === 0) {
+        return "Wishlist does not exist"
+    }
+
+    if (wishlist.length > 1) {
+        return "DATABASE ERROR"
+    }
+
+    return wishlist[0]
+}
