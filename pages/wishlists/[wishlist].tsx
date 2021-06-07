@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
     const sendToken = context.req.cookies.token
     const token = await fetch("http://localhost:3000/api/wishlists/" + wishlist, {method: "post", body: JSON.stringify({token: sendToken})})
     const data = await token.json()
-    console.log(data)
+    
     if (data.message === "Invalid data sent") {
         return {
             props: {
