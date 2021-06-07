@@ -25,7 +25,15 @@ export async function getAllWishlists(token: string) {
     return wishlists
 }
 
-export async function getWishlist(id: number): Promise<string | Wishlist> {
+export async function getWishlist(id: number, token: string): Promise<string | Wishlist | null> {
+    const rows = await getUser("token", token)
+
+    if (typeof rows === "string" || !rows) {
+        return rows
+    }
+
+    const user_id = rows.id
+
     const db = await getDbConnection()
     let wishlist: Wishlist[]
 
@@ -41,6 +49,10 @@ export async function getWishlist(id: number): Promise<string | Wishlist> {
 
     if (wishlist.length > 1) {
         return "DATABASE ERROR"
+    }
+
+    if (user_id !== wishlist[0].owner_id) {
+        return "Unauthorized"
     }
 
     return wishlist[0]

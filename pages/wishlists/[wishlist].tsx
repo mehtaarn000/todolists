@@ -1,9 +1,9 @@
-import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
+import { GetServerSideProps } from 'next'
 import React from "react"
-import { Wishlist } from "../lib/sql_models"
+import { Wishlist } from "../../lib/sql_models"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlists?: Wishlist[]}) {
+export default function App(props: {redirect?: boolean, message?: string, wishlist?: Wishlist}) {
     const router = useRouter()
 
     React.useEffect(() => {
@@ -16,16 +16,17 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         return <div>{props.message}</div>
     } else {
         return <div>
-            <pre>{JSON.stringify(props.wishlists)}</pre>
+            <pre>{JSON.stringify(props.wishlist)}</pre>
         </div>
     }
 }
 
 export const getServerSideProps: GetServerSideProps = async (context): Promise<any> => {
+    const wishlist = context.query.wishlist
     const sendToken = context.req.cookies.token
-    const token = await fetch("http://localhost:3000/api/wishlists", {method: "post", body: JSON.stringify({token: sendToken})})
+    const token = await fetch("http://localhost:3000/api/wishlists/" + wishlist, {method: "post", body: JSON.stringify({token: sendToken})})
     const data = await token.json()
-
+    console.log(data)
     if (data.message === "Invalid data sent") {
         return {
             props: {
@@ -43,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
     } else {
         return {
             props: {
-                wishlists: data.wishlists
+                wishlist: data.wishlist
             }
         }
     }
