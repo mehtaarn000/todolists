@@ -9,6 +9,5 @@ export interface User {
 export interface Wishlist {
     id: number,
     owner_id: number,
-    content: string,
     title: string
 }
