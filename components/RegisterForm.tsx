@@ -98,7 +98,7 @@ export default function RegisterForm(props: { error: boolean | React.ReactChild 
                 <input name="password" type="password" onChange={(event) => {setPassword(event?.target?.value)}}></input>
                 <input name="confirmpassword" type="password" onChange={(event) => {setConPassword(event?.target?.value)}} ref={inputRef}></input>
                 <input name="email" type="email" onChange={(event) => {setEmail(event?.target?.value)}}></input>
-                <button type="submit"></button>
+                <input type="submit"></input>
             </form> 
         </div>
     )

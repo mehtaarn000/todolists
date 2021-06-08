@@ -7,7 +7,7 @@ interface FormProps {
     error?: string
 }
 
-export default function Hello(props: FormProps): JSX.Element {
+export default function LoginForm(props: FormProps): JSX.Element {
     const [username, setUsername] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [error, setError] = React.useState(props.error)
