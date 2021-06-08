@@ -1,14 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { validateUser, getTokenByUser } from "../../lib/getUser"
-
-interface Body {
-    username: string,
-    password: string,
-}
+import { LoginBody } from "../../lib/interfaces"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const bodyString = req.body
-    const body: Body = JSON.parse(bodyString)
+    const body: LoginBody = JSON.parse(bodyString)
 
     if (!body.username || !body.password) {
         res.status(400).json({message: "The request failed"})

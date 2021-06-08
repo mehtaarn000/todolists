@@ -1,16 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { createUser } from "../../lib/createUser"
-
-interface Body {
-    username: string,
-    password: string,
-    conpassword: string,
-    email: string
-}
+import { RegisterBody } from "../../lib/interfaces"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const bodyString = req.body
-    const body: Body = JSON.parse(bodyString)
+    const body: RegisterBody = JSON.parse(bodyString)
     const { username, password, email, conpassword } = body
     const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9_]+(?<![_.])$/
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
