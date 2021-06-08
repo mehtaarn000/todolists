@@ -13,6 +13,8 @@ async function getUser(username: string, email: string): Promise<string> {
         rows = await connection.query(sql) 
     } catch (err) {
         return "DATABASE ERROR"
+    } finally {
+        connection.end()
     }
     
     const users = rows as unknown as User[]
@@ -58,6 +60,8 @@ export async function createUser(username: string, pass: string, email: string):
             return "token " + token
         } catch {
             return "DATABASE ERROR"
+        } finally {
+            connection.end()
         }
     }
 

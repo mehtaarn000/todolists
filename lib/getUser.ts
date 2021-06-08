@@ -41,6 +41,8 @@ export async function getUser(field: string, value: string | number): Promise<st
         rows = await connection.query(`SELECT * FROM users WHERE ${field} = "${value}"`) 
     } catch (err) {
         return "DATABASE ERROR"
+    } finally {
+        connection.end()
     }
     
     const users = rows as unknown as User[]

@@ -16,6 +16,8 @@ export async function getAllWishlists(token: string) {
         wishlists = await db.query(`SELECT * FROM wishlists WHERE owner_id = "${id}"`)
     } catch {
         return "DATABASE ERROR"
+    } finally {
+        db.end()
     }
     
     if (wishlists.length === 0) {
