@@ -1,6 +1,7 @@
 {
   "name": "wishlist",
   "description": "Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)",
+  "type": "module",
   "author": {
     "name": "mehtaarn000",
     "email": "arnavm834@gmail.com",
@@ -30,7 +31,11 @@
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/experimental-utils": "^4.23.0",
+    "@typescript-eslint/parser": "^4.26.1",
     "eslint": "^7.27.0",
+    "eslint-plugin-react": "^7.24.0",
     "typescript": "4.0"
   },
   "license": "MIT"
