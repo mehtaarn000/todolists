@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getUser } from "../../lib/getUser"
 import { User } from "../../lib/sql_models"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
     const body = JSON.parse(bodyString)
     const token = body.token

@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
 import { User } from "./sql_models"
-import { createConnection } from 'promise-mysql'
+import { Connection, createConnection } from 'promise-mysql'
 
 dotenv.config({path: "./.env.local"})
 
-export const getDbConnection = async () => {
+export const getDbConnection = async (): Promise<Connection> => {
     return await createConnection({
         user: process.env.DATABASE_USER,
         password: process.env.DATABASE_PW,

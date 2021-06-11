@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { validateUser, getTokenByUser } from "../../lib/getUser"
 import { LoginBody } from "../../lib/interfaces"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
     const body: LoginBody = JSON.parse(bodyString)
 

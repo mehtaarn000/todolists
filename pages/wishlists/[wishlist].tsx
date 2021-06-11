@@ -2,8 +2,9 @@ import { useRouter } from "next/router"
 import { GetServerSideProps } from 'next'
 import React from "react"
 import { Wishlist } from "../../lib/sql_models"
+import { WishlistsProps } from "../../lib/interfaces"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlist?: Wishlist}) {
+export default function App(props: {redirect?: boolean, message?: string, wishlist?: Wishlist}): JSX.Element {
     const router = useRouter()
 
     React.useEffect(() => {
@@ -21,7 +22,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
     }
 }
 
-export const getServerSideProps: GetServerSideProps = async (context): Promise<any> => {
+export const getServerSideProps: GetServerSideProps = async (context): Promise<WishlistsProps> => {
     const wishlist = context.query.wishlist
     const sendToken = context.req.cookies.token
     const token = await fetch("http://localhost:3000/api/wishlists/" + wishlist, {method: "post", body: JSON.stringify({token: sendToken})})
@@ -44,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
     } else {
         return {
             props: {
-                wishlist: data.wishlist
+                wishlists: data.wishlist
             }
         }
     }

@@ -47,8 +47,6 @@ async function getUser(username: string, email: string): Promise<string> {
 
 export async function createUser(username: string, pass: string, email: string): Promise<string> {
     const user = await getUser(username, email)
-    
-    let _;
 
     // If the username and email are not taken
     if (!user) {
@@ -56,7 +54,7 @@ export async function createUser(username: string, pass: string, email: string):
         const password = await bcrypt.hash(pass, 10)
         const connection = await getDbConnection()
         try {
-            _ = await connection.query(`INSERT INTO users (username, pass, email, token) VALUES ("${username}", "${password}", "${email}", "${token}")`) 
+            await connection.query(`INSERT INTO users (username, pass, email, token) VALUES ("${username}", "${password}", "${email}", "${token}")`) 
             return "token " + token
         } catch {
             return "DATABASE ERROR"

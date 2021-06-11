@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { createUser } from "../../lib/createUser"
 import { RegisterBody } from "../../lib/interfaces"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
     const body: RegisterBody = JSON.parse(bodyString)
     const { username, password, email, conpassword } = body

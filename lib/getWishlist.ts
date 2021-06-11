@@ -1,7 +1,7 @@
 import { getUser, getDbConnection } from "./getUser"
 import { Wishlist } from "./sql_models"
 
-export async function getAllWishlists(token: string) {
+export async function getAllWishlists(token: string): Promise<string | Wishlist[] | null> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {

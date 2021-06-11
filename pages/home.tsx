@@ -4,7 +4,7 @@ import React from "react"
 import { FormProps } from "../lib/interfaces"
 import Cookies from "js-cookie"
 
-export default function App(props: { redirect: boolean }) {
+export default function App(props: { redirect: boolean }): JSX.Element {
     const router = useRouter()
     React.useEffect(() => {
         if (props.redirect) {

@@ -1,3 +1,5 @@
+import { Wishlist } from "./sql_models"
+
 export interface FormProps {
     register?: number,
     error?: string,
@@ -14,4 +16,12 @@ export interface RegisterBody {
 export interface LoginBody {
     username: string,
     password: string
+}
+
+export interface WishlistsProps {
+    props: {
+        redirect?: boolean,
+        message?: string,
+        wishlists?: Wishlist[]
+    }
 }

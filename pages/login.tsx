@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import { FormProps } from "../lib/interfaces"
 import Cookies from "js-cookie"
 
-export default function App(props: { redirect?: boolean, register?: number, error?: string }) {
+export default function App(props: { redirect?: boolean, register?: number, error?: string }): JSX.Element {
     const router = useRouter()
     React.useEffect(() => {
         if (props.redirect) {
@@ -25,7 +25,7 @@ export default function App(props: { redirect?: boolean, register?: number, erro
     }
 }
 
-function LoginOrRegister(props: { register?: number; error?: string }) {
+function LoginOrRegister(props: { register?: number; error?: string }): JSX.Element {
     const [register, setRegister] = React.useState(props.register)
 
     if (register) {
