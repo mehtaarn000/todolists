@@ -1,7 +1,6 @@
 {
   "name": "wishlist",
   "description": "Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)",
-  "type": "module",
   "author": {
     "name": "mehtaarn000",
     "email": "arnavm834@gmail.com",
