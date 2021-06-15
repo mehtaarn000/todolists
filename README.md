@@ -1,2 +1,2 @@
 # wishlist
-Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)
+Create and share wishlists with friends. Built with NextJS, TypeScript and MySQL. (IN DEVELOPMENT)
