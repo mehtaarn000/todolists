@@ -13,11 +13,11 @@ export default function App(props: { redirect: boolean }): JSX.Element {
             return
         }
     }, [])
-
     
     return (
         <div>
             <h1>Hello WorfflD!</h1>
+            <button onClick={() => {Cookies.remove("token"); router.push("/login")}}>Logout</button>
         </div>
     )
 }
