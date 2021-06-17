@@ -1,13 +1,13 @@
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import React from "react"
-import { Wishlist } from "../../lib/sql_models"
+import { WishlistURLS } from "../../lib/sql_models"
 import type { WishlistsProps } from "../../lib/interfaces"
 import NewWishlistForm from "../../components/NewWishlistForm"
 import WishlistJSX from "../../components/Wishlist"
 import { ClipLoader } from "react-spinners"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlists?: Wishlist[], token: string}): JSX.Element {
+export default function App(props: {redirect?: boolean, message?: string, wishlists?: WishlistURLS[], token: string}): JSX.Element {
     const router = useRouter()
     const [ display, showDisplay ] = React.useState(false)
     const [ jsonData, setJsonData ] = React.useState(props.wishlists)

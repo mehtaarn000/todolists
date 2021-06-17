@@ -1,7 +1,7 @@
 import { getUser, getDbConnection } from "./getUser"
-import { Wishlist } from "./sql_models"
+import { Wishlist, WishlistURLS } from "./sql_models"
 
-export async function getAllWishlists(token: string): Promise<string | Wishlist[] | null> {
+export async function getAllWishlists(token: string): Promise<string | WishlistURLS[] | null> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {
@@ -10,10 +10,10 @@ export async function getAllWishlists(token: string): Promise<string | Wishlist[
 
     const id = rows.id
     const db = await getDbConnection()
-    let wishlists: Wishlist[];
+    let wishlists: WishlistURLS[];
 
     try {
-        wishlists = await db.query(`SELECT * FROM wishlists WHERE owner_id = "${id}"`)
+        wishlists = await db.query(`SELECT wishlists.title,urls.url FROM wishlists INNER JOIN urls ON wishlists.id = urls.wishlist_id WHERE owner_id = "${id}"`)
     } catch {
         return "DATABASE ERROR"
     } finally {

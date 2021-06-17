@@ -11,3 +11,8 @@ export interface Wishlist {
     owner_id: number,
     title: string
 }
+
+export interface WishlistURLS {
+    title: string,
+    url: string
+}
