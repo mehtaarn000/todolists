@@ -60,9 +60,10 @@ export async function getWishlist(id: number, token: string): Promise<string | W
     return wishlist[0]
 }
 
+// Any array = true
 export async function checkWishlistExists(owner_id: number, title: string): Promise<null | string | boolean> {
     const db = await getDbConnection()
-    let wishlist: boolean
+    let wishlist: Array<Wishlist>
 
     try {
         wishlist = await db.query(`SELECT * FROM wishlists WHERE owner_id = "${owner_id}" AND title = "${title}"`)
@@ -72,6 +73,10 @@ export async function checkWishlistExists(owner_id: number, title: string): Prom
         db.end()
     }
 
-    return !wishlist
+    if (wishlist.length) {
+        return true
+    }
+
+    return false
 }
 

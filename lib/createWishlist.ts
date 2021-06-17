@@ -1,7 +1,7 @@
 import { getDbConnection, getUser } from "./getUser"
 import { checkWishlistExists } from "./getWishlist"
 
-export async function createWishlist(token: string, title: string): Promise<string | null> {
+export async function createWishlist(token: string, title: string): Promise<string | null | boolean> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {
@@ -26,5 +26,5 @@ export async function createWishlist(token: string, title: string): Promise<stri
         db.end()
     }
 
-    return ""
+    return true
 }

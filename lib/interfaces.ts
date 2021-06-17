@@ -22,6 +22,7 @@ export interface WishlistsProps {
     props: {
         redirect?: boolean,
         message?: string,
-        wishlists?: Wishlist[]
+        wishlists?: Wishlist[],
+        token?: string
     }
 }

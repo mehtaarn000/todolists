@@ -3,9 +3,9 @@ import { createWishlist } from "../../../lib/createWishlist"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
-    const body = JSON.parse(JSON.stringify(bodyString))
-    const { token, title } = body
+    const body = JSON.parse(bodyString)
 
+    const { token, title } = body
     if (!token || !title) {
         res.status(400).json({message: "Invalid data sent"})
         return
