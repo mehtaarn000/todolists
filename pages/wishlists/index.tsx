@@ -4,11 +4,13 @@ import React from "react"
 import { Wishlist } from "../../lib/sql_models"
 import type { WishlistsProps } from "../../lib/interfaces"
 import NewWishlistForm from "../../components/NewWishlistForm"
+import WishlistJSX from "../../components/Wishlist"
+import { ClipLoader } from "react-spinners"
 
 export default function App(props: {redirect?: boolean, message?: string, wishlists?: Wishlist[], token: string}): JSX.Element {
     const router = useRouter()
     const [ display, showDisplay ] = React.useState(false)
-    const [ jsonData, setJsonData ] = React.useState(JSON.stringify(props.wishlists))
+    const [ jsonData, setJsonData ] = React.useState(props.wishlists)
 
     React.useEffect(() => {
         if (props.redirect) {
@@ -20,7 +22,11 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         const token = await fetch("http://localhost:3000/api/wishlists", {method: "post", body: JSON.stringify({token: props.token})})
         const data = await token.json()
 
-        setJsonData(JSON.stringify(data.wishlists))
+        setJsonData(data.wishlists)
+    }
+
+    if (props.redirect) {
+        return <ClipLoader></ClipLoader>
     }
 
     if (props.message) {
@@ -33,7 +39,9 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
                 <button onClick={() => showDisplay(false)}></button>
                 <NewWishlistForm token={props.token} setSuccess={() => showDisplay(false)} refetchData={refetchData}></NewWishlistForm>
                 <div>
-                    <pre>{jsonData}</pre>
+                    {jsonData?.map((wishlist, index) => {
+                        return <WishlistJSX key={index} wishlists={wishlist}></WishlistJSX>
+                    })}
                 </div>
             </div>
         )
@@ -41,7 +49,9 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         return <div>
             <button onClick={() => showDisplay(true)}></button>
             <div>
-                <pre>{jsonData}</pre>
+                {jsonData?.map((wishlist, index) => {
+                    return <WishlistJSX key={index} wishlists={wishlist}></WishlistJSX>
+                })}
             </div>
         </div>
     }
