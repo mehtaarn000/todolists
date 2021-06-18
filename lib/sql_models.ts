@@ -13,6 +13,6 @@ export interface Wishlist {
 }
 
 export interface WishlistURLS {
-    title: string,
-    url: string
+    id: number,
+    title: string
 }

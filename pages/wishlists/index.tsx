@@ -40,7 +40,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
                 <NewWishlistForm token={props.token} setSuccess={() => showDisplay(false)} refetchData={refetchData}></NewWishlistForm>
                 <div>
                     {jsonData?.map((wishlist, index) => {
-                        return <WishlistJSX key={index} wishlists={wishlist}></WishlistJSX>
+                        return <WishlistJSX key={index} id={wishlist.id} title={wishlist.title}></WishlistJSX>
                     })}
                 </div>
             </div>
@@ -50,7 +50,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
             <button onClick={() => showDisplay(true)}></button>
             <div>
                 {jsonData?.map((wishlist, index) => {
-                    return <WishlistJSX key={index} wishlists={wishlist}></WishlistJSX>
+                    return <WishlistJSX key={index} id={wishlist.id} title={wishlist.title}></WishlistJSX>
                 })}
             </div>
         </div>

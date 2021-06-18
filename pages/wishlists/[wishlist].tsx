@@ -4,7 +4,7 @@ import React from "react"
 import { Wishlist } from "../../lib/sql_models"
 import { WishlistsProps } from "../../lib/interfaces"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlist?: Wishlist}): JSX.Element {
+export default function App(props: {redirect?: boolean, message?: string, wishlists?: Wishlist}): JSX.Element {
     const router = useRouter()
 
     React.useEffect(() => {
@@ -17,7 +17,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         return <div>{props.message}</div>
     } else {
         return <div>
-            <pre>{JSON.stringify(props.wishlist)}</pre>
+            <p>{props.wishlists?.title}</p>
         </div>
     }
 }
@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<W
     const sendToken = context.req.cookies.token
     const token = await fetch("http://localhost:3000/api/wishlists/" + wishlist, {method: "post", body: JSON.stringify({token: sendToken})})
     const data = await token.json()
-    
+
     if (data.message === "Invalid data sent") {
         return {
             props: {

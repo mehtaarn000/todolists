@@ -13,7 +13,7 @@ export async function getAllWishlists(token: string): Promise<string | WishlistU
     let wishlists: WishlistURLS[];
 
     try {
-        wishlists = await db.query(`SELECT wishlists.title,urls.url FROM wishlists INNER JOIN urls ON wishlists.id = urls.wishlist_id WHERE owner_id = "${id}"`)
+        wishlists = await db.query(`SELECT id, title FROM wishlists WHERE owner_id = "${id}"`)
     } catch {
         return "DATABASE ERROR"
     } finally {
