@@ -64,7 +64,6 @@ export async function getWishlist(id: number, token: string): Promise<string | [
         return "DATABASE ERROR"
     }
 
-    console.log(urls)
     return [wishlist[0].title, urls]
 }
 
