@@ -1,10 +1,9 @@
 import { useRouter } from "next/router"
 import { GetServerSideProps } from 'next'
 import React from "react"
-import { Wishlist } from "../../lib/sql_models"
 import { WishlistsProps } from "../../lib/interfaces"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlists?: Wishlist}): JSX.Element {
+export default function App(props: {redirect?: boolean, message?: string, wishlists?: [string, Array<{url: string}>]}): JSX.Element {
     const router = useRouter()
 
     React.useEffect(() => {
@@ -17,7 +16,8 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         return <div>{props.message}</div>
     } else {
         return <div>
-            <p>{props.wishlists?.title}</p>
+            <p>{props.wishlists?.[0]}</p>
+            <p>{JSON.stringify(props.wishlists?.[1])}</p>
         </div>
     }
 }

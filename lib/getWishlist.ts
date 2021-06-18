@@ -27,7 +27,7 @@ export async function getAllWishlists(token: string): Promise<string | WishlistU
     return wishlists
 }
 
-export async function getWishlist(id: number, token: string): Promise<string | Wishlist | null> {
+export async function getWishlist(id: number, token: string): Promise<string | [string, Array<{url: string}>] | null> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {
@@ -38,9 +38,10 @@ export async function getWishlist(id: number, token: string): Promise<string | W
 
     const db = await getDbConnection()
     let wishlist: Wishlist[]
+    let urls: Array<{url: string}>
 
     try {
-        wishlist = await db.query(`SELECT * FROM wishlists WHERE id = "${db.escape(id)}"`)
+        wishlist = await db.query(`SELECT title, id, owner_id FROM wishlists WHERE id = "${db.escape(id)}"`)
     } catch {
         return "DATABASE ERROR"
     }
@@ -57,7 +58,14 @@ export async function getWishlist(id: number, token: string): Promise<string | W
         return "Unauthorized"
     }
 
-    return wishlist[0]
+    try {
+        urls = await db.query(`SELECT url FROM urls WHERE wishlist_id = "${wishlist[0].id}"`)
+    } catch {
+        return "DATABASE ERROR"
+    }
+
+    console.log(urls)
+    return [wishlist[0].title, urls]
 }
 
 // Any array = true
