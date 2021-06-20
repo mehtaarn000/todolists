@@ -6,7 +6,7 @@ export default function WishlistItem(props: {url: string}): JSX.Element {
         <div className={styles.parent}>
             {props.url}
             <div style={{float:"right"}}>
-                <button onClick={}></button>
+                <button></button>
             </div>
         </div>
     )
