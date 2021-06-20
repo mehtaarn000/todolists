@@ -1,5 +1,5 @@
 import { getUser, getDbConnection } from "./getUser"
-import { Wishlist, WishlistURLS } from "./sql_models"
+import { Wishlist, WishlistURLS, Url } from "./sql_models"
 
 export async function getAllWishlists(token: string): Promise<string | WishlistURLS[] | null> {
     const rows = await getUser("token", token)
@@ -27,7 +27,7 @@ export async function getAllWishlists(token: string): Promise<string | WishlistU
     return wishlists
 }
 
-export async function getWishlist(id: number, token: string): Promise<string | [string, Array<{url: string}>] | null> {
+export async function getWishlist(id: number, token: string): Promise<string | [string, Url[]] | null> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {
@@ -38,7 +38,7 @@ export async function getWishlist(id: number, token: string): Promise<string | [
 
     const db = await getDbConnection()
     let wishlist: Wishlist[]
-    let urls: Array<{url: string}>
+    let urls: Url[]
 
     try {
         wishlist = await db.query(`SELECT title, id, owner_id FROM wishlists WHERE id = "${db.escape(id)}"`)

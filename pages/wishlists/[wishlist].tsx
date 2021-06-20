@@ -4,8 +4,9 @@ import React from "react"
 import { WishlistsProps } from "../../lib/interfaces"
 import { ClipLoader } from "react-spinners"
 import WishlistItem from "../../components/WishlistItem"
+import { Url } from "../../lib/sql_models"
 
-export default function App(props: {redirect?: boolean, message?: string, wishlists?: [string, Array<{url: string}>]}): JSX.Element {
+export default function App(props: {redirect?: boolean, message?: string, wishlists?: [string, Url[]]}): JSX.Element {
     const router = useRouter()
 
     React.useEffect(() => {
@@ -24,7 +25,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         return <div >
             <h1>{props.wishlists?.[0]}</h1>
             {props.wishlists?.[1].map((item, index) => {
-               return <WishlistItem key={index} url={item.url}></WishlistItem> 
+               return <WishlistItem key={index} url={item.url} id={item.id}></WishlistItem> 
             })}
         </div>
     }
