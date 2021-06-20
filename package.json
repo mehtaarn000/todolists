@@ -1,6 +1,7 @@
 {
   "name": "wishlist",
   "description": "Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)",
+  "type": "module",
   "author": {
     "name": "mehtaarn000",
     "email": "arnavm834@gmail.com",
@@ -22,6 +23,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-spinners": "^0.11.0",
+    "sass": "^1.35.1",
     "util": "^0.12.3"
   },
   "devDependencies": {

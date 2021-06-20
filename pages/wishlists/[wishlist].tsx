@@ -2,6 +2,8 @@ import { useRouter } from "next/router"
 import { GetServerSideProps } from 'next'
 import React from "react"
 import { WishlistsProps } from "../../lib/interfaces"
+import { ClipLoader } from "react-spinners"
+import WishlistItem from "../../components/WishlistItem"
 
 export default function App(props: {redirect?: boolean, message?: string, wishlists?: [string, Array<{url: string}>]}): JSX.Element {
     const router = useRouter()
@@ -12,12 +14,18 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         }
     }, [])
 
+    if (props.redirect) {
+        return <ClipLoader></ClipLoader>
+    }
+
     if (props.message) {
         return <div>{props.message}</div>
     } else {
-        return <div>
-            <p>{props.wishlists?.[0]}</p>
-            <p>{JSON.stringify(props.wishlists?.[1])}</p>
+        return <div >
+            <h1>{props.wishlists?.[0]}</h1>
+            {props.wishlists?.[1].map((item, index) => {
+               return <WishlistItem key={index} url={item.url}></WishlistItem> 
+            })}
         </div>
     }
 }

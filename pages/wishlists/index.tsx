@@ -36,7 +36,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
     if (display) {
         return (
             <div>
-                <button onClick={() => showDisplay(false)}></button>
+                <button onClick={() => showDisplay(false)}>Create new wishlist</button>
                 <NewWishlistForm token={props.token} setSuccess={() => showDisplay(false)} refetchData={refetchData}></NewWishlistForm>
                 <div>
                     {jsonData?.map((wishlist, index) => {
@@ -47,7 +47,7 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
         )
     } else {
         return <div>
-            <button onClick={() => showDisplay(true)}></button>
+            <button onClick={() => showDisplay(true)}>Create new wishlist</button>
             <div>
                 {jsonData?.map((wishlist, index) => {
                     return <WishlistJSX key={index} id={wishlist.id} title={wishlist.title}></WishlistJSX>
