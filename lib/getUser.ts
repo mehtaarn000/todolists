@@ -71,3 +71,17 @@ export async function getTokenByUser(username: string): Promise<string|null> {
 
     return users.token
 }
+
+export async function validateByToken(token: string): Promise<boolean> {
+    const users = await getUser("token", token)
+
+    if (typeof users === "string") {
+        return false
+    }
+
+    if (!users) {
+        return false
+    }
+
+    return true
+}

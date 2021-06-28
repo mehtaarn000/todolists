@@ -4,7 +4,7 @@ export async function deleteFromDb(table: string, key: string, value: string | n
     const db = await getDbConnection()
 
     try {
-        db.query(`DELETE FROM ${table} WHERE ${key} = ${db.escape(value)}`)
+        await db.query(`DELETE FROM ${table} WHERE ${key} = ${db.escape(value)}`)
     } catch {
         return "DATABASE ERROR"
     }

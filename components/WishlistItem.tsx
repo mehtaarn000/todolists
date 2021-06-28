@@ -2,12 +2,17 @@ import React from "react";
 import styles from "../styles/WishlistItem.module.scss"
 import { Url } from "../lib/sql_models";
 
-export default function WishlistItem(props: Url): JSX.Element {
+interface UrlDeletion {
+    url: Url,
+    deletion: (id: number) => Promise<void>
+}
+
+export default function WishlistItem(props: UrlDeletion): JSX.Element {
     return (
         <div className={styles.parent}>
-            {props.url}
+            {props.url.url}
             <div style={{float:"right"}}>
-                <button ></button>
+                <button onClick={() => props.deletion(props.url.id)}></button>
             </div>
         </div>
     )

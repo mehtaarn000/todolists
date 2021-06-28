@@ -59,7 +59,7 @@ export async function getWishlist(id: number, token: string): Promise<string | [
     }
 
     try {
-        urls = await db.query(`SELECT url FROM urls WHERE wishlist_id = "${wishlist[0].id}"`)
+        urls = await db.query(`SELECT id, url FROM urls WHERE wishlist_id = "${wishlist[0].id}"`)
     } catch {
         return "DATABASE ERROR"
     }
