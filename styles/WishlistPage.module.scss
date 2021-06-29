@@ -1,0 +1,16 @@
+div.new-wishlist-box {
+    position:absolute;
+    top:0;
+    right:0;
+    height: 100px;
+    width: 100px;
+    display: flex;
+}
+
+button.new-url {
+    display:block;
+    height: 50px;
+    width: 50px;
+    margin: auto;
+    border-radius: 50%;
+}
