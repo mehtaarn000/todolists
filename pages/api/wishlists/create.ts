@@ -3,7 +3,7 @@ import { createWishlist } from "../../../lib/createWishlist"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
-    const body = JSON.parse(JSON.stringify(bodyString))
+    const body = JSON.parse(JSON.parse(JSON.stringify(bodyString)))
 
     const { token, title } = body
     if (!token || !title) {

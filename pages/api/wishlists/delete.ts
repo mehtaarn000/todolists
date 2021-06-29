@@ -4,7 +4,7 @@ import { validateByToken } from "../../../lib/getUser";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
-    const body = JSON.parse(bodyString)
+    const body = JSON.parse(JSON.parse(JSON.stringify(bodyString)))
     const { token, id } = body
 
     if (!token) {

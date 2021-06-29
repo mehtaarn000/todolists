@@ -4,7 +4,7 @@ import { RegisterBody } from "../../lib/interfaces"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
-    const body: RegisterBody = JSON.parse(bodyString)
+    const body: RegisterBody = JSON.parse(JSON.parse(JSON.stringify(bodyString)))
     const { username, password, email, conpassword } = body
     const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9_]+(?<![_.])$/
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

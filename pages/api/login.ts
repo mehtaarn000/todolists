@@ -4,7 +4,9 @@ import { LoginBody } from "../../lib/interfaces"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
-    const body: LoginBody = JSON.parse(bodyString)
+    const body: LoginBody = JSON.parse(JSON.parse(JSON.stringify(bodyString)))
+
+    console.log(body.username)
 
     if (!body.username || !body.password) {
         res.status(400).json({message: "The request failed"})
