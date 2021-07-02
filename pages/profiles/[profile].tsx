@@ -15,11 +15,10 @@ export default function App(props: {friends: Array<{username: number}> | string}
     
 }
 
-// Placeholder for now
 export const getStaticPaths: GetStaticPaths = async () => {
-    return {paths: [{params: {profile: "newuser"}}], fallback: false}
+    return {paths: [], fallback: "blocking"}
 }
-
+    
 export const getStaticProps: GetStaticProps = async (context): Promise<{props: {friends: Array<{username: string}> | string}}> => {
     const profile = context.params?.profile
     const friends = await getFriends(profile as string)
