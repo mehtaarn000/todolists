@@ -36,3 +36,4 @@ yarn-error.log*
 .vscode/
 my.sql
 sql.js
+wishlist.session.sql
