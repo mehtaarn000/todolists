@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { createWishlist } from "../../../lib/createWishlist"
+import { createTodolist } from "../../../lib/createTodolist"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
@@ -11,12 +11,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
     }
     
-    const success = await createWishlist(token, title)
+    const success = await createTodolist(token, title)
 
     if (typeof success === "string" || !success) {
         res.status(404).json({message: success})
         return
     }
 
-    res.status(201).json({message: "Wishlist successfully created!"})
+    res.status(201).json({message: "Todolist successfully created!"})
 }

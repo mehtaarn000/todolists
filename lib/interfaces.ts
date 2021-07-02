@@ -1,4 +1,4 @@
-import { Wishlist } from "./sql_models"
+import { Todolist } from "./sql_models"
 
 export interface FormProps {
     register?: number,
@@ -18,11 +18,11 @@ export interface LoginBody {
     password: string
 }
 
-export interface WishlistsProps {
+export interface TodolistsProps {
     props: {
         redirect?: boolean,
         message?: string,
-        wishlists?: Wishlist[],
+        todolists?: Todolist[],
         token?: string
     }
 }

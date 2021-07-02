@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getAllWishlists } from "../../../lib/getWishlist"
+import { getAllLists } from "../../../lib/getTodolist"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
@@ -11,20 +11,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
     }
 
-    const wishlists = await getAllWishlists(token)
-    if (wishlists === "SQL Error" || wishlists === "DATABASE ERROR") {
-        res.status(500).json({message: wishlists})
+    const todolists = await getAllLists(token)
+
+    if (todolists === "SQL Error" || todolists === "DATABASE ERROR") {
+        res.status(500).json({message: todolists})
         return
     }
 
-    if (!wishlists) {
+    if (!todolists) {
         res.status(401).json({message: "Unauthorized"})
     }
 
-    if (wishlists === "You have 0 wishlists. Create one!") {
-        res.status(204).json({message: wishlists})
+    if (todolists === "You have 0 todolists. Create one!") {
+        res.status(204).json({message: todolists})
         return
     }
 
-    res.status(200).json({wishlists: wishlists})
+    res.status(200).json({todolists: todolists})
 }

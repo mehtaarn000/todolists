@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "../styles/WishlistItem.module.scss"
-import { Url } from "../lib/sql_models";
+import { Item } from "../lib/sql_models";
 
 interface UrlDeletion {
-    url: Url,
+    url: Item,
     deletion: (id: number) => Promise<void>
 }
 
-export default function WishlistItem(props: UrlDeletion): JSX.Element {
+export default function TodolistItem(props: UrlDeletion): JSX.Element {
     return (
         <div className={styles.parent}>
             {props.url.url}

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getWishlist } from "../../../lib/getWishlist"
+import { getList } from "../../../lib/getTodolist"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const bodyString = req.body
@@ -11,19 +11,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
     }
 
-    const id = Number(req.query.wishlist)
+    const id = Number(req.query.todo)
 
     if (!id || typeof id === "object") {
         res.status(404).json({message: "Client error"})
         return
     }
 
-    const wishlist = await getWishlist(id, token)
+    const todolist = await getList(id, token)
 
-    if (typeof wishlist === "string") {
-        res.status(404).json({message: wishlist})
+    if (typeof todolist === "string") {
+        res.status(404).json({message:todolist})
         return
     }
 
-    res.status(200).send({wishlist: wishlist})
+    res.status(200).send({todolists: todolist})
 }

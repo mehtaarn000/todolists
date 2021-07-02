@@ -19,10 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
     }
 
-    const deleteWishlist = await deleteFromDb("urls", "id", id)
+    const deleteTodolist = await deleteFromDb("urls", "id", id)
 
     // success
-    if (!deleteWishlist) {
+    if (!deleteTodolist) {
         res.status(200).json({message: "success"})
         return
     }
