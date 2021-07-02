@@ -15,5 +15,7 @@ export async function createItem(token: string, todolist_id: number, url: string
         return row[0]["LAST_INSERT_ID()"]
     } catch {
         return "DATABASE ERROR"
+    } finally {
+        db.end()
     }
 }

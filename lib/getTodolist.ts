@@ -44,6 +44,8 @@ export async function getList(id: number, token: string): Promise<string | [stri
         todolist = await db.query(`SELECT title, id, owner_id FROM wishlists WHERE id = "${db.escape(id)}"`)
     } catch {
         return "DATABASE ERROR"
+    } finally {
+        db.end()
     }
 
     if (todolist.length === 0) {
@@ -62,6 +64,8 @@ export async function getList(id: number, token: string): Promise<string | [stri
         urls = await db.query(`SELECT id, url FROM urls WHERE wishlist_id = "${todolist[0].id}"`)
     } catch {
         return "DATABASE ERROR"
+    } finally {
+        db.end()
     }
 
     console.log(urls)
