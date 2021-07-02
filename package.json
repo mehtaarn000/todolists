@@ -1,6 +1,6 @@
 {
-  "name": "wishlist",
-  "description": "Create and share wishlists with friends. Built with NextJS and MySQL. (IN DEVELOPMENT)",
+  "name": "todolists",
+  "description": "Create todolists. Built with NextJS, TypeScript and MySQL. (IN DEVELOPMENT)",
   "author": {
     "name": "mehtaarn000",
     "email": "arnavm834@gmail.com",
