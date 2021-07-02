@@ -1,7 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getFriends } from "../../lib/getFriends";
+import React from "react";
 
-export default function App(props: {friends: Array<{username: number}> | string}) {
+export default function App(props: {friends: Array<{username: number}> | string}): JSX.Element {
     if (typeof props.friends === "string") {
         return <h1>{props.friends}</h1>
     }
