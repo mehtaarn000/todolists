@@ -1,13 +1,13 @@
 import React from "react"
 
-export default function NewWishlistForm(props: {token: string, setSuccess: () => void, refetchData: () => void}): JSX.Element {
+export default function NewTodolistForm(props: {token: string, setSuccess: () => void, refetchData: () => void}): JSX.Element {
     const [ title, setTitle ] = React.useState("")
     const [ error, setError ] = React.useState("")
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         const body = {title: title, token: props.token}
-        const res = await fetch("/api/wishlists/create", {method: "post", body: JSON.stringify(body)})
+        const res = await fetch("/api/todolists/create", {method: "post", body: JSON.stringify(body)})
 
         if (res.status >= 400) {
             const jsonData = await res.json()

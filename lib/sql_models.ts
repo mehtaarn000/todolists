@@ -6,18 +6,18 @@ export interface User {
     token: string
 }
 
-export interface Wishlist {
+export interface Todolist {
     id: number,
     owner_id: number,
     title: string
 }
 
-export interface WishlistURLS {
+export interface TodolistsItems {
     id: number,
     title: string
 }
 
-export interface Url {
+export interface Item {
     id: number,
     url: string
 }

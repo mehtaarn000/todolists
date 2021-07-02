@@ -1,15 +1,16 @@
 import { useRouter } from "next/router"
 import { GetServerSideProps } from 'next'
 import React from "react"
-import { WishlistsProps } from "../../lib/interfaces"
+import { TodolistsProps } from "../../lib/interfaces"
 import { ClipLoader } from "react-spinners"
-import WishlistItem from "../../components/WishlistItem"
-import { Url } from "../../lib/sql_models"
+import TodoListItem from "../../components/TodolistItem"
+import { Item } from "../../lib/sql_models"
 import styles from "../../styles/WishlistPage.module.scss"
 
-async function getUrls(wishlist: string, token: string) {
-    const getWishlists = await fetch("http://localhost:3000/api/wishlists/" + wishlist, {method: "post", body: JSON.stringify({token: token})})
-    const data = await getWishlists.json()
+async function getUrls(todolist: string, token: string) {
+
+    const getTodolists = await fetch("http://localhost:3000/api/todolists/" + todolist, {method: "post", body: JSON.stringify({token: token})})
+    const data = await getTodolists.json()
 
     if (data.message === "Invalid data sent") {
         return {
@@ -19,7 +20,7 @@ async function getUrls(wishlist: string, token: string) {
         }
     }
 
-    if (getWishlists.status > 200) {
+    if (getTodolists.status > 200) {
         return {
             props: {
                 message: data.message
@@ -28,39 +29,39 @@ async function getUrls(wishlist: string, token: string) {
     } else {
         return {
             props: {
-                wishlists: data.wishlist,
-                wishlist_id: wishlist,
+                todolists: data.todolists,
+                todolist_id: todolist,
                 token: token
             }
         }
     }
 }
 
-export default function App(props: {redirect?: boolean, message?: string, wishlists?: [string, Url[]], token?: string, wishlist_id?: string}): JSX.Element {
+export default function App(props: {redirect?: boolean, message?: string, todolists?: [string, Item[]], token?: string, todolist_id?: string}): JSX.Element {
     const router = useRouter()
     
     const [message, setMessage] = React.useState(props.message)
-    const [wishlists, setWishlists] = React.useState(props.wishlists?.[1])
+    const [todolists, setTodolists] = React.useState(props.todolists?.[1])
     const [showInput, setShowInput] = React.useState(false)
-    const [newUrl, setNewUrl] = React.useState("")
+    const [newItem, setNewItem] = React.useState("")
     const [formError, setFormError] = React.useState("")
  
-    function filterWishlist(id: number) {
-        setWishlists(
-            wishlists?.filter((list) => {
+    function filterTodolists(id: number) {
+        setTodolists(
+            todolists?.filter((list) => {
                 return id !== list.id
             })
         )
     }
 
-    async function deleteUrl(id: number) {
-        const res = await fetch("http://localhost:3000/api/wishlists/delete", {method: "post", body: JSON.stringify({token: props.token, id: id})})
+    async function deleteItem(id: number) {
+        const res = await fetch("http://localhost:3000/api/todolists/delete", {method: "post", body: JSON.stringify({token: props.token, id: id})})
 
         if (res.status !== 200) {
             const json = await res.json()
             setMessage(json.message)
         } else {
-            filterWishlist(id)
+            filterTodolists(id)
         }
     }
 
@@ -76,16 +77,17 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setShowInput(false)
         
-        const res = await fetch("http://localhost:3000/api/wishlists/createUrl", {method: "post", body: JSON.stringify({token: props.token, url: newUrl, wishlist_id: router.query.wishlist})})
+        const res = await fetch("http://localhost:3000/api/todolists/createItem", {method: "post", body: JSON.stringify({token: props.token, url: newItem, todolist_id: router.query.todo})})
         const json = await res.json()
 
         if (res.status > 201) {
             const message = json.message
             setFormError(message)
         } else {
-            const newArray = [...wishlists as Url[], json.wishlists]
-            setWishlists(newArray)
+            const newArray = [...todolists as Item[], json.todolists]
+            setTodolists(newArray)
         }
     }
 
@@ -98,23 +100,23 @@ export default function App(props: {redirect?: boolean, message?: string, wishli
                 <div className={styles["new-wishlist-box"]}>
                     <button className={styles["new-url"]} onClick={() => {setShowInput(true)}}>
                         <p>+</p>{showInput ? <form onSubmit={handleSubmit}>
-                            <input onChange={((e) => setNewUrl(e.target.value))}></input>
+                            <input onChange={((e) => setNewItem(e.target.value))}></input>
                         </form> : null}
                     </button>
                 </div>
-                <h1>{props.wishlists?.[0]}</h1>
-                {wishlists?.map((item, index) => {
-                    return <WishlistItem key={index} url={item} deletion={deleteUrl}></WishlistItem>
+                <h1>{props.todolists?.[0]}</h1>
+                {todolists?.map((item, index) => {
+                    return <TodoListItem key={index} url={item} deletion={deleteItem}></TodoListItem>
                 })}
             </div>
         )
     }
 }
 
-export const getServerSideProps: GetServerSideProps = async (context): Promise<WishlistsProps> => {
-    const wishlist = context.query.wishlist
+export const getServerSideProps: GetServerSideProps = async (context): Promise<TodolistsProps> => {
+    const todo = context.query.todo
     const sendToken = context.req.cookies.token
 
-    const urls = getUrls(wishlist as string, sendToken)
+    const urls = await getUrls(todo as string, sendToken)
     return urls
 }

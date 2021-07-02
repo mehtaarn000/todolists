@@ -1,7 +1,7 @@
 import { getDbConnection, getUser } from "./getUser"
-import { checkWishlistExists } from "./getWishlist"
+import { checkListExists } from "./getTodolist"
 
-export async function createWishlist(token: string, title: string): Promise<string | null | boolean> {
+export async function createTodolist(token: string, title: string): Promise<string | null | boolean> {
     const rows = await getUser("token", token)
 
     if (typeof rows === "string" || !rows) {
@@ -10,10 +10,10 @@ export async function createWishlist(token: string, title: string): Promise<stri
 
     const user_id = rows.id
 
-    const wishlistExists = await checkWishlistExists(user_id, title)
+    const todolistExists = await checkListExists(user_id, title)
 
-    if (wishlistExists) {
-        return "Wishlist title already exists"
+    if (todolistExists) {
+        return "Todolist title already exists"
     }
 
     const db = await getDbConnection()
